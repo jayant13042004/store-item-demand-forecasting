@@ -1,46 +1,145 @@
-# Retail Demand Forecasting
 
-Forecasting daily item-level demand for a retail chain, benchmarked against naive baselines, with seasonality analysis.
+# Retail Demand Forecasting & Predictive Analytics
 
-> Fill every [bracket] from your own run. Do not publish numbers you did not produce.
+An end-to-end machine learning project for forecasting retail product demand across multiple stores using historical sales data, time-series analysis, and gradient boosting.
+
+## Project Overview
+
+Accurate demand forecasting is essential for retail businesses to optimize inventory, reduce stockouts, minimize overstocking, and improve supply-chain planning.
+
+This project analyzes historical sales data from 10 stores and 50 products to identify demand patterns and forecast future sales over a three-month horizon.
+
+The solution uses time-series feature engineering and machine learning to capture trends, seasonality, and store-product-specific sales behavior.
+
+## Business Objectives
+
+- Forecast product-level demand across multiple retail stores.
+- Identify seasonal trends and recurring sales patterns.
+- Understand variations in demand across stores and products.
+- Improve inventory planning through data-driven predictions.
+- Translate model predictions into actionable business insights.
 
 ## Dataset
-Kaggle "Store Item Demand Forecasting Challenge": 10 stores × 50 items, daily sales, 2013-01-01 to 2017-12-31.
 
-## Approach
-1. **EDA:** weekly and yearly seasonality, trend, store/item differences
-2. **Validation:** chronological split; last [90] days held out as test; `TimeSeriesSplit` for tuning
-3. **Baselines:** naive and seasonal-naive (weekly)
-4. **Models:** [SARIMA / Prophet] and LightGBM with lag, rolling-window, and calendar features
-5. **Metrics:** WAPE, MAPE (excluding zero-sales days), RMSE
-6. **Inventory planning (only if built):** reorder point and safety stock from forecast error
-7. **App (only if built):** Streamlit page for forecast vs actual by store and item
+**Store Item Demand Forecasting Dataset**
 
-## Results (test period)
-| Model | WAPE | MAPE | RMSE |
-|---|---|---|---|
-| Naive | [x] | [x] | [x] |
-| Seasonal-naive | [x] | [x] | [x] |
-| [SARIMA/Prophet] | [x] | [x] | [x] |
-| **LightGBM** | **[x]** | **[x]** | **[x]** |
+- Historical period: January 2013 – December 2017
+- Number of stores: 10
+- Number of products: 50
+- Store-product combinations: 500
+- Forecast horizon: 3 months
 
-LightGBM improves WAPE by [y]% over seasonal-naive.
-(Add a forecast-vs-actual plot: `![forecast](images/forecast.png)`)
+Dataset: [Kaggle – Store Item Demand Forecasting Challenge](https://www.kaggle.com/competitions/demand-forecasting-kernels-only)
 
-## Run locally
-```bash
-git clone https://github.com/jayant13042004/store-item-demand-forecasting.git
-cd store-item-demand-forecasting
-pip install -r requirements.txt
-jupyter notebook notebooks/[notebook].ipynb
+## Technology Stack
+
+- **Programming:** Python
+- **Data Analysis:** Pandas, NumPy
+- **Visualization:** Matplotlib, Seaborn
+- **Machine Learning:** Scikit-learn, LightGBM
+- **Time-Series Analysis:** Statsmodels
+- **Hyperparameter Optimization:** Optuna
+- **Model Interpretability:** SHAP
+- **Development:** Jupyter Notebook, Git
+
+## Methodology
+
+### 1. Exploratory Data Analysis
+- Analyzed historical sales trends and distributions.
+- Identified weekly and yearly seasonality.
+- Examined demand variations across stores and products.
+- Investigated trends, outliers, and demand patterns.
+
+### 2. Time-Series Analysis
+- Decomposed sales into trend, seasonal, and residual components.
+- Analyzed stationarity and temporal dependencies.
+- Identified relevant forecasting patterns.
+
+### 3. Feature Engineering
+Developed predictive features including:
+
+- Calendar features: day, month, year, weekday, and day of year.
+- Lag features: historical sales at different time intervals.
+- Rolling statistics: moving averages and standard deviations.
+- Exponentially weighted moving averages.
+- Store and product identifiers.
+
+### 4. Model Development
+Implemented a LightGBM regression-based forecasting approach to capture nonlinear relationships between historical sales patterns and future demand.
+
+Model development includes:
+- Baseline model comparison.
+- Feature selection using Recursive Feature Elimination.
+- Hyperparameter optimization using Optuna.
+- Chronological training and validation.
+
+### 5. Model Evaluation
+Evaluated forecasting performance using:
+
+- Mean Absolute Error (MAE)
+- Mean Absolute Percentage Error (MAPE)
+- Root Mean Squared Error (RMSE)
+- R-squared (R²)
+
+Also analyzed residual distributions and actual-versus-predicted sales.
+
+### 6. Model Interpretability
+Used feature importance and SHAP analysis to understand the contribution of historical sales, calendar variables, and rolling statistics to demand predictions.
+
+### 7. Business Insights
+The forecasting outputs can support:
+
+- Store-level inventory planning.
+- Product-level replenishment decisions.
+- Identification of high-demand and low-demand products.
+- Seasonal demand planning.
+- Sales and inventory allocation.
+
+## Project Structure
+
+```text
+├── input/
+├── models/
+├── notebooks/
+├── reports/
+├── src/
+├── requirements.txt
+├── setup.py
+└── README.md
 ```
 
-## Limitations
-- One holdout window; no rolling-origin evaluation across periods.
-- Point forecasts only; no prediction intervals.
+## Installation & Execution
 
-## References
-List any repositories or tutorials you took ideas from, with links.
+```bash
+git clone <YOUR_REPOSITORY_URL>
+cd <YOUR_REPOSITORY_NAME>
 
-## Author
-Jayant Jagtap · [LinkedIn](https://www.linkedin.com/in/jayantjagtap/)
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+pip install -r requirements.txt
+
+jupyter notebook
+```
+
+Open the notebooks directory and execute the exploratory analysis and modeling notebooks.
+
+## Future Improvements
+
+- Compare LightGBM against XGBoost, Prophet, and ARIMA.
+- Develop LSTM-based forecasting models.
+- Build an interactive demand forecasting dashboard.
+- Integrate automated forecasting pipelines.
+- Extend predictions into inventory optimization and replenishment planning.
+
+## Acknowledgements
+
+This project is based on the Store Item Demand Forecasting Challenge hosted on Kaggle.
+
+Original project inspiration and implementation reference:
+https://github.com/allmeidaapedro/Store-Item-Demand-Forecasting
+
+Dataset:
+https://www.kaggle.com/competitions/demand-forecasting-kernels-only
